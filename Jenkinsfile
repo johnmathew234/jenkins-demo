@@ -11,7 +11,7 @@ pipeline
   stage('Munit Tests'){
    steps{
     configFileProvider([configFile(fileId: 'da01fc76-5c2b-4f0d-948a-c101b4cc4340', variable: 'settings')]){
-     sh 'mvn -s $settings clean test'
+     sh 'mvn clean test'
     }
    }
   }
