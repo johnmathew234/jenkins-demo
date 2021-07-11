@@ -4,7 +4,7 @@ pipeline
  stages{
  	stage('Build Application'){
    steps{
- 	bat 'mvn clean install -DskipMuniTests' 	
+ 	bat 'mvn clean install -DskipMunitTests' 	
  	}	
   }
  	
