@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="jenkins-demo-poc-suite.xml" />
+	<munit:test name="jenkins-demo-pocFlow-test" doc:id="06e0f7b3-d159-4a89-a8cb-84781731b9a7" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="f4ff3bb8-6393-4220-a3bc-54b6d370b74c" >
+				<munit:payload value="#[readUrl('classpath://jenkinsdemopocFlowtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://jenkinsdemopocFlowtest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to jenkins-demo-pocFlow" doc:id="223cfa25-1da4-4e23-b4ad-254607dda83a" name="jenkins-demo-pocFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="cb50c5ba-6319-4ca1-872c-06be72ecbbca" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import jenkinsdemopocFlowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
